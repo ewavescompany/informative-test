@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Specific RTL styles */
+body[dir="rtl"] {
+  direction: rtl;
+}
+
+/* RTL-specific styles for layout or text alignment */
+html[dir="rtl"] {
+  text-align: right;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.bentoSquare {
+  background-image: url("../public/services/service1.jpg");
+  background-size: cover;
+  background-position: center center;
+}
+
+.imageContainer {
+  display: inline-block;
+  overflow: hidden; /* Ensures the effect is contained within the image boundaries */
+}
+
+.image {
+  filter: grayscale(100%); /* Makes the image black and white */
+  transition: filter 0.5s ease; /* Smooth transition */
+}
+
+.image:hover {
+  filter: grayscale(0%); /* Returns the image to its original color on hover */
+}
+
+.bg {
+  background-image: url("https://upshift.uicore.co/wp-content/uploads/2024/06/Marketing-Tools-Hero-BG.webp");
+  background-position: top center;
+  background-repeat: repeat;
+  background-size: 900px auto;
+}
+
+.dotbg {
+  background-image: url("https://upshift.uicore.co/pages/wp-content/uploads/sites/14/2024/07/Services-Features-BG-2.webp");
+  background-position: center center;
+  background-size: 100% auto;
+}
+
+.stats {
+  background-color: transparent;
+  background-image: linear-gradient(180deg, #28282c 0%, #2e2e34 100%);
+  /* background-image: url(https://upshift.uicore.co/pages/wp-content/uploads/sites/14/2024/07/About-Us-Stats-BG.webp);
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  background-size: 1176px auto; */
+}
+
+.minibg {
+  background-image: url("../public/minibg.webp");
+  background-position: 50% 30px;
+  background-repeat: no-repeat;
+  background-size: 77% auto;
+}
+
+.testomonialsfadebg {
+  padding: 235px 0px 0px 0px;
+  background-color: transparent;
+  background-image: linear-gradient(
+    180deg,
+    #ffffff00 0%,
+    var(--e-global-color-uicore_light) 85%
+  );
+}
+
+.asterisk {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.asterisk div {
+  background-color: blue;
+  width: 100%;
+  height: calc(50px * 0.2);
+}
+
+.asterisk::before,
+.asterisk::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 20%;
+  background-color: blue;
+  top: 40%;
+  left: 0;
+}
+
+.asterisk::after {
+  transform: rotate(60deg);
+}
+
+.asterisk::before {
+  transform: rotate(-60deg);
+}
+
+.ql-size-large {
+  font-size: 24px !important;
+}
+
+.ql-size-small {
+  font-size: 18px !important;
+}
+
+.ql-size-huge {
+  font-size: 32px !important;
+}
