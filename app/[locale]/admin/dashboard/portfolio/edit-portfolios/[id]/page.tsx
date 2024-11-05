@@ -33,6 +33,8 @@ import { editPortfolio } from "@/requests/admin/editPortfolio";
 import Loader from "@/customComponents/loader";
 import { useToast } from "@/hooks/use-toast";
 import withAuth from "@/app/hocs/withAuth";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 // Validation Schema
 
 function EditPortfolioPage() {
@@ -43,6 +45,7 @@ function EditPortfolioPage() {
   const [mainImagePreview, setMainImagePreview] = useState<File | null>(null);
   const { loading, portfolioData, error } = useFetchPortfolio(params?.id); // Use 'portfolioData' not 'portfolioById'
   const [isPosting, setIsPosting] = useState<boolean>(false);
+  const [content, setContent] = useState(""); // Quill content state
   const validationSchema = Yup.object({
     title: Yup.string().required(t("Title is required")),
     content: Yup.string().required(t("Content is required")),
@@ -116,19 +119,43 @@ function EditPortfolioPage() {
       if (values.mainImage) {
         formData.append("image", values.mainImage);
       }
+
       const token = localStorage.getItem("authToken");
+
       try {
         setIsPosting(true);
-        await editPortfolio(formData, token ? token : "");
-        toast({
-          title: t("portfolio_updated_successfully"),
-          description: t("portfolio_updated_successfully_you_can_check_it"),
-        });
-        // Redirect or show success message
-        setIsPosting(false);
-      } catch (error) {
+        const response = await editPortfolio(formData, token ? token : "");
+
+        if (response.data && response.success) {
+          toast({
+            title: t("portfolio_updated_successfully"),
+            description: t("portfolio_updated_successfully_you_can_check_it"),
+          });
+          formik.resetForm();
+          setIsPosting(false);
+          // Additional actions on success, such as redirecting
+        } else {
+          toast({
+            variant: "destructive",
+            title: t("portfolio_update_failed"),
+            description: response?.error || t("An unexpected error occurred."),
+          });
+          setIsPosting(false);
+        }
+      } catch (error: unknown) {
         console.error("Error submitting portfolio", error);
         setIsPosting(false);
+
+        // Check if the error is an instance of Error to safely access `message`
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : t("An unexpected error occurred.");
+        toast({
+          variant: "destructive",
+          title: t("portfolio_update_failed"),
+          description: errorMessage,
+        });
       }
     },
   });
@@ -142,6 +169,11 @@ function EditPortfolioPage() {
       setMainImagePreview(file);
       formik.setFieldValue("mainImage", file);
     }
+  };
+
+  const handleContentChange = (value: string) => {
+    setContent(value);
+    formik.setFieldValue("content", value);
   };
 
   if (loading) return <PageLoader />;
@@ -176,15 +208,47 @@ function EditPortfolioPage() {
                 )}
               </div>
 
-              {/* Content */}
+              {/* Description */}
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="content">Content</Label>
+                <Label htmlFor="description">Description</Label>
                 <Textarea
-                  id="content"
-                  name="content"
+                  id="description"
+                  name="description"
                   rows={5}
                   onChange={formik.handleChange}
-                  value={formik.values.content}
+                  value={formik.values.description}
+                  placeholder="Project description"
+                />
+                {formik.errors.description && formik.touched.description && (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.description}
+                  </div>
+                )}
+              </div>
+
+              {/* ReactQuill for Content */}
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="content">{t("Content")}</Label>
+                <ReactQuill
+                  value={content}
+                  onChange={handleContentChange}
+                  modules={{
+                    toolbar: [
+                      [{ header: "1" }, { header: "2" }, { font: [] }],
+                      [{ list: "ordered" }, { list: "bullet" }],
+                      ["bold", "italic", "underline"],
+                      ["link"],
+                    ],
+                  }}
+                  formats={[
+                    "header",
+                    "font",
+                    "list",
+                    "bold",
+                    "italic",
+                    "underline",
+                    "link",
+                  ]}
                   placeholder="Project content"
                 />
                 {formik.errors.content && formik.touched.content && (
@@ -208,24 +272,6 @@ function EditPortfolioPage() {
                 {formik.errors.keywords && formik.touched.keywords && (
                   <div className="text-red-500 text-sm">
                     {formik.errors.keywords}
-                  </div>
-                )}
-              </div>
-
-              {/* Description */}
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                  id="description"
-                  name="description"
-                  rows={5}
-                  onChange={formik.handleChange}
-                  value={formik.values.description}
-                  placeholder="Project description"
-                />
-                {formik.errors.description && formik.touched.description && (
-                  <div className="text-red-500 text-sm">
-                    {formik.errors.description}
                   </div>
                 )}
               </div>

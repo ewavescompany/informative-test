@@ -2,7 +2,6 @@
 import { DashboardTitle } from "@/customComponents/dashboardComponent/tags/dashboardTitle";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-
 import {
   Card,
   CardContent,
@@ -31,29 +30,35 @@ import {
 import { submitPortfolio } from "@/requests/admin/addPortfolio";
 import { useToast } from "@/hooks/use-toast";
 import withAuth from "@/app/hocs/withAuth";
-// Validation Schema
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+
+const validationSchema = Yup.object({
+  title: Yup.string().required("Title is required"),
+  content: Yup.string().required("Content is required"),
+  keywords: Yup.string().required("Keywords are required"),
+  description: Yup.string()
+    .required("Description is required")
+    .min(10, "Description needs to be more than 10 characters")
+    .max(100, "Description needs to be less than 100 characters"),
+  status: Yup.string().required("Status is required"),
+  client: Yup.string().required("Client name is required"),
+  startDate: Yup.string().required("Start date is required"),
+  endDate: Yup.string().required("End date is required"),
+  websiteLink: Yup.string()
+    .url("Must be a valid URL")
+    .required("Website link is required"),
+  mainImage: Yup.mixed().required("Main image is required"),
+  images: Yup.array().min(1, "At least one image is required"),
+  lang: Yup.string().required("Language is required"),
+});
 
 function Page() {
+  const [content, setContent] = useState(""); // Quill content state
   const [previewImages, setPreviewImages] = useState<File[]>([]); // To manage multiple images preview
   const [mainImagePreview, setMainImagePreview] = useState<File | null>(null);
   const t = useTranslations("portfolio");
   const { toast } = useToast();
-  const validationSchema = Yup.object({
-    title: Yup.string().required(t("Title is required")),
-    content: Yup.string().required(t("Content is required")),
-    keywords: Yup.string().required(t("Keywords are required")),
-    description: Yup.string().required(t("Description is required")),
-    status: Yup.string().required(t("Status is required")),
-    client: Yup.string().required(t("Client name is required")),
-    startDate: Yup.string().required(t("Start date is required")),
-    endDate: Yup.string().required(t("End date is required")),
-    websiteLink: Yup.string()
-      .url(t("Must be a valid URL"))
-      .required(t("Website link is required")),
-    mainImage: Yup.mixed().required(t("Main image is required")),
-    images: Yup.array().min(1, t("At least one image is required")),
-    lang: Yup.string().required(t("lang_required")),
-  });
 
   const formik = useFormik({
     initialValues: {
@@ -89,17 +94,41 @@ function Page() {
       values.images.forEach((image: File, index: number) => {
         formData.append(`images_slider[${index}]`, image);
       });
+
       const token = localStorage.getItem("authToken");
+
       try {
         const response = await submitPortfolio(formData, token ? token : "");
-        console.log("Portfolio submitted successfully:", response);
-        toast({
-          title: t("portfolio_added_successfully"),
-          description: t("portfolio_added_successfully_you_can_check_it"),
-        });
-        formik.resetForm();
-      } catch (error) {
+
+        // Assuming `response.success` or status code indicates success
+        if (response.data && response.success) {
+          toast({
+            title: t("portfolio_added_successfully"),
+            description: t("portfolio_added_successfully_you_can_check_it"),
+          });
+          formik.resetForm();
+        } else {
+          // Show error toast if the request didn't succeed
+          toast({
+            variant: "destructive",
+            title: t("portfolio_adding_failed"),
+            description: response?.error || t("An unexpected error occurred."),
+          });
+        }
+      } catch (error: unknown) {
         console.error("Error submitting portfolio:", error);
+
+        // Check if the error is an instance of Error to access `message` safely
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : t("An unexpected error occurred.");
+
+        toast({
+          variant: "destructive",
+          title: t("portfolio_adding_failed"),
+          description: errorMessage,
+        });
       }
     },
   });
@@ -132,6 +161,11 @@ function Page() {
     formik.setFieldValue("images", updatedImages);
   };
 
+  const handleContentChange = (value: string) => {
+    setContent(value);
+    formik.setFieldValue("content", value);
+  };
+
   return (
     <div className="w-full flex flex-col gap-5 capitalize ">
       <DashboardTitle title="Add Project" />
@@ -161,15 +195,47 @@ function Page() {
                 )}
               </div>
 
-              {/* Content */}
+              {/* Description */}
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="description">{t("Description")}</Label>
+                <Input
+                  type="text"
+                  id="description"
+                  name="description"
+                  onChange={formik.handleChange}
+                  value={formik.values.description}
+                  placeholder="Project description"
+                />
+                {formik.errors.description && formik.touched.description && (
+                  <div className="text-red-500 text-sm">
+                    {formik.errors.description}
+                  </div>
+                )}
+              </div>
+
+              {/* ReactQuill for Content */}
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="content">{t("Content")}</Label>
-                <Textarea
-                  id="content"
-                  name="content"
-                  rows={5}
-                  onChange={formik.handleChange}
-                  value={formik.values.content}
+                <ReactQuill
+                  value={content}
+                  onChange={handleContentChange}
+                  modules={{
+                    toolbar: [
+                      [{ header: "1" }, { header: "2" }, { font: [] }],
+                      [{ list: "ordered" }, { list: "bullet" }],
+                      ["bold", "italic", "underline"],
+                      ["link"],
+                    ],
+                  }}
+                  formats={[
+                    "header",
+                    "font",
+                    "list",
+                    "bold",
+                    "italic",
+                    "underline",
+                    "link",
+                  ]}
                   placeholder="Project content"
                 />
                 {formik.errors.content && formik.touched.content && (
@@ -193,24 +259,6 @@ function Page() {
                 {formik.errors.keywords && formik.touched.keywords && (
                   <div className="text-red-500 text-sm">
                     {formik.errors.keywords}
-                  </div>
-                )}
-              </div>
-
-              {/* Description */}
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="description">{t("Description")}</Label>
-                <Textarea
-                  id="description"
-                  name="description"
-                  rows={5}
-                  onChange={formik.handleChange}
-                  value={formik.values.description}
-                  placeholder="Project description"
-                />
-                {formik.errors.description && formik.touched.description && (
-                  <div className="text-red-500 text-sm">
-                    {formik.errors.description}
                   </div>
                 )}
               </div>

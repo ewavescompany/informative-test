@@ -32,6 +32,7 @@ function PortfolioHeader({
       </h1>
       <p className="font-medium text-graywhite z-[3] xl:text-lg md:text-base text-sm xl:max-w-[900px] md:max-w-[600px] sm:max-w-[400px] text-center">
         {locale === "en" ? descriptionEn : descriptionAr}
+        
       </p>
     </div>
   );
