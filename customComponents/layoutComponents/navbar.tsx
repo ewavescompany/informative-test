@@ -32,17 +32,19 @@ function Navbar({ logo }: { logo: string }) {
       }`}
     >
       <div className="p-1 w-48 h-20">
-        {logo ? (
-          <Image
-            src={logo}
-            width={200}
-            height={200}
-            alt="Company Logo"
-            className="max-w-48 max-h-24 h-full w-full object-cover"
-          />
-        ) : (
-          <h2 className="text-white font-semibold text-xl">Company Logo</h2>
-        )}
+        <Link href={"/"}>
+          {logo ? (
+            <Image
+              src={logo}
+              width={200}
+              height={200}
+              alt="Company Logo"
+              className="max-w-48 max-h-24 h-full w-full object-cover"
+            />
+          ) : (
+            <h2 className="text-white font-semibold text-xl">Company Logo</h2>
+          )}
+        </Link>
       </div>
       {/* Navigation Links */}
       <div className="flex flex-row gap-4 ">

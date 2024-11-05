@@ -1,10 +1,7 @@
 "use client";
 import Link from "next/link";
 import React from "react";
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import Image from "next/image";
-// Import Swiper styles
 import "swiper/css";
 import SlideComponent from "../reavelAnimation/slideComponent";
 import { blogsInterface } from "@/interfaces/clientInterface";
@@ -12,12 +9,13 @@ import { useTranslations } from "next-intl";
 import Cookies from "js-cookie";
 import { formatDate } from "@/utility/generic";
 import { imagesPath } from "@/constants/urls";
+
 function BlogSection({ blogs }: { blogs: blogsInterface[] }) {
   const locale = Cookies.get("NEXT_LOCALE") || "en";
-  console.log(blogs);
   const t = useTranslations("blogs");
+
   return (
-    <div className="flex relative flex-col overflow-hidden w-full h-full px-0 sm:px-5  lg:px-8 lg:pb-14 pb-4 sm:pb-10 lg:gap-10 gap-5">
+    <div className="flex relative flex-col overflow-hidden w-full h-full px-0 sm:px-5 lg:px-8 lg:pb-14 pb-4 sm:pb-10 lg:gap-10 gap-5">
       <div className="flex flex-col items-center gap-3 minibg">
         <SlideComponent dir="down">
           <h4 className="text-grayblack md:text-xl font-medium">
@@ -38,29 +36,21 @@ function BlogSection({ blogs }: { blogs: blogsInterface[] }) {
           </Link>
         </SlideComponent>
       </div>
+
       <div className="w-full h-full overflow-hidden">
         <Swiper
           className="mySwiper"
           spaceBetween={30}
           breakpoints={{
-            0: {
-              slidesPerView: 1.25,
-            },
-            768: {
-              slidesPerView: 2.5,
-            },
-            1024: {
-              slidesPerView: 3.5,
-            },
-            1440: {
-              slidesPerView: 4.5,
-            },
+            0: { slidesPerView: 1.25 },
+            768: { slidesPerView: 2.5 },
+            1024: { slidesPerView: 3.5 },
+            1440: { slidesPerView: 4.5 },
           }}
         >
-          <SwiperSlide className="w-full h-full overflow-hidden">
-            {blogs.map((blog: blogsInterface, index: number) => (
+          {blogs.map((blog: blogsInterface, index: number) => (
+            <SwiperSlide key={index} className="w-full h-full overflow-hidden">
               <BlogCard
-                key={index}
                 index={index}
                 blogImgUrl={`${imagesPath}blogs/${blog.image}`}
                 title={locale === "ar" ? blog.title_ar : blog.title_en}
@@ -69,8 +59,8 @@ function BlogSection({ blogs }: { blogs: blogsInterface[] }) {
                 }
                 date={`${t("added")} ${formatDate(blog.created_at)}`}
               />
-            ))}
-          </SwiperSlide>
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
     </div>
