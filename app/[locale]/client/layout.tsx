@@ -1,5 +1,5 @@
 import localFont from "next/font/local";
-import Navbar from "@/customComponents/layoutComponents/navbar";
+// import Navbar from "@/customComponents/layoutComponents/navbar";
 import Footer from "@/customComponents/layoutComponents/footer";
 import { getLocale } from "next-intl/server";
 
@@ -30,7 +30,7 @@ export default async function RootLayout({
         dir={locale === "en" ? "ltr" : "rtl"}
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-[family-name:var(--font-geist-sans)] flex flex-col bg-graywhite bg`}
       >
-        <Navbar />
+        {/* <Navbar /> */}
         {children}
         <Footer />
       </body>

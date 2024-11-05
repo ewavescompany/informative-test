@@ -51,6 +51,10 @@ const Sidebar: React.FC = () => {
                   href: `/${locale}/admin/dashboard/stats-section`, // Use locale from cookies
                   label: t("stats_section"),
                 },
+                {
+                  href: `/${locale}/admin/dashboard/nav-logo`, // Use locale from cookies
+                  label: t("nav_logo"),
+                },
               ]}
             />
             <DropdownNavItem

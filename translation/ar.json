@@ -8,6 +8,7 @@
     "home": "الرئيسية",
     "video_section": "قسم الفيديو",
     "stats_section": "قسم الإحصائيات",
+    "nav_logo": "اللوجو الجانبي",
     "blogs": "المدونات",
     "show_blogs": "عرض المدونات",
     "add_blogs": "إضافة مدونة",
@@ -31,6 +32,20 @@
     "what_our_users": "ما قاله المستخدمون",
     "said_about_our_company": "قال عن شركتنا",
     "learn_more": "تعرف على المزيد"
+  },
+  "nav_logo": {
+    "add_logo": "إضافة الشعار",
+    "logo": "الشعار",
+    "logo_required": "يجب إضافة الشعار",
+    "logo_invalid_type": "يُسمح فقط بملفات JPG و PNG و SVG و ICO",
+    "logo_upload_success": "تم الرفع بنجاح",
+    "logo_uploaded_successfully": "تم رفع الشعار بنجاح",
+    "logo_upload_failed": "فشل في رفع الشعار",
+    "unexpected_error": "حدث خطأ غير متوقع",
+    "error": "خطأ",
+    "logo_preview": "معاينة الشعار",
+    "cancel": "إلغاء",
+    "submit": "رفع"
   },
   "login": {
     "email": "البريد الإلكتروني",

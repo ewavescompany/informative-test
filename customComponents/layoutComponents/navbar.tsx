@@ -4,15 +4,19 @@ import Link from "next/link";
 import { Facebook, Youtube, Twitter, Instagram } from "lucide-react";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
-function Navbar() {
+import Image from "next/image";
+
+function Navbar({ logo }: { logo: string }) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const locale = Cookies.get("NEXT_LOCALE") || "en";
   const t = useTranslations("navbar");
+
   // Function to handle scroll event
   const handleScroll = () => {
     const position = window.pageYOffset;
     setScrollPosition(position);
   };
+
   // Add scroll event listener on mount and cleanup on unmount
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -27,13 +31,21 @@ function Navbar() {
         scrollPosition > 50 ? "bg-grayblack" : "bg-grayblack/50"
       }`}
     >
-      {/* <Image
-        src={exampleImage}
-        alt="logo"
-        className="max-w-24 max-h-24 h-full w-full"
-      /> */}
-      <h2 className="text-2xl">Company logo</h2>
-      <div className="flex flex-row gap-3 ">
+      <div className="p-1 w-48 h-20">
+        {logo ? (
+          <Image
+            src={logo}
+            width={200}
+            height={200}
+            alt="Company Logo"
+            className="max-w-48 max-h-24 h-full w-full object-cover"
+          />
+        ) : (
+          <h2 className="text-white font-semibold text-xl">Company Logo</h2>
+        )}
+      </div>
+      {/* Navigation Links */}
+      <div className="flex flex-row gap-4 ">
         <Link href={"/"} className="text-base font-semibold">
           {t("home")}
         </Link>
@@ -73,29 +85,16 @@ function Navbar() {
           locale === "en" ? "flex-row ml-auto" : "flex-row-reverse mr-auto"
         }`}
       >
-        <Link
-          className="lg:text-lg text-base text-graywhite font-medium flex flex-row gap-2 items-center justify-center w-fit"
-          href={"/home"}
-        >
+        <Link href={"/home"} className="lg:text-lg text-base text-graywhite">
           <Facebook size={20} />
         </Link>
-
-        <Link
-          className="lg:text-lg text-base text-graywhite font-medium flex flex-row gap-2 items-center justify-center w-fit"
-          href={"/home"}
-        >
+        <Link href={"/home"} className="lg:text-lg text-base text-graywhite">
           <Youtube size={20} />
         </Link>
-        <Link
-          className="lg:text-lg text-base text-graywhite font-medium flex flex-row gap-2 items-center justify-center w-fit"
-          href={"/home"}
-        >
+        <Link href={"/home"} className="lg:text-lg text-base text-graywhite">
           <Twitter size={20} />
         </Link>
-        <Link
-          className="lg:text-lg text-base text-graywhite font-medium flex flex-row gap-2 items-center justify-center w-fit"
-          href={"/home"}
-        >
+        <Link href={"/home"} className="lg:text-lg text-base text-graywhite">
           <Instagram size={20} />
         </Link>
       </div>
