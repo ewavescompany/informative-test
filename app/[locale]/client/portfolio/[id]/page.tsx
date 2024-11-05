@@ -42,8 +42,8 @@ async function page({ params }: { params: { id: string } }) {
       <PortfolioHeader
         titleEn={projectRes?.title_en ?? ""}
         titleAr={projectRes?.title_ar ?? ""}
-        descriptionEn={projectRes?.content_en ?? ""}
-        descriptionAr={projectRes?.content_ar ?? ""}
+        descriptionEn={projectRes?.description_en ?? ""}
+        descriptionAr={projectRes?.description_ar ?? ""}
         image={projectRes?.image ?? ""}
       />
       <PortfolioDescription

@@ -19,7 +19,7 @@ export const editPortfolio = async (
       },
     });
 
-    return response.data; // Return response data from the API
+    return response; // Return response data from the API
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error(

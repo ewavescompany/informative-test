@@ -20,6 +20,7 @@
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dompurify": "^3.1.7",
     "formik": "^2.4.6",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.446.0",
@@ -37,6 +38,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/dompurify": "^3.0.5",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",

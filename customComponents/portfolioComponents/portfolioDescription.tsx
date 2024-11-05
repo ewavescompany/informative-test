@@ -5,6 +5,9 @@ import Cookies from "js-cookie";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { formatDateForPortfolio } from "@/utility/generic";
+import DOMPurify from "dompurify";
+import "react-quill/dist/quill.snow.css";
+
 function PortfolioDescription({
   descriptionEn,
   descriptionAr,
@@ -26,6 +29,10 @@ function PortfolioDescription({
 }) {
   const t = useTranslations("portfolio");
   const locale = Cookies.get("NEXT_LOCALE") || "en";
+  const sanitizedContent = DOMPurify.sanitize(
+    locale === "en" ? descriptionEn : descriptionAr
+  ); // Sanitize content for safety
+
   return (
     <div className="grid lg:grid-cols-4 grid-cols-2 w-full gap-5 px-8 pb-20 sm:px-20 py-4 sm:py-10">
       <div className="flex flex-col items-start gap-1">
@@ -40,9 +47,10 @@ function PortfolioDescription({
         <h6 className="text-2xl text-grayblack font-medium">
           {t("project_description")}
         </h6>
-        <p className="text-base text-gray-500">
-          {locale === "en" ? descriptionEn : descriptionAr}
-        </p>
+        <div
+          className="quill-content"
+          dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+        />
       </div>
       <div className="flex flex-col items-start gap-1">
         <h6 className="text-xl text-grayblack font-medium">

@@ -19,9 +19,10 @@ export const submitPortfolio = async (
       },
     });
 
-    return response.data; // Return response data from the API
+    return response; // Return response data from the API
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
+    console.log("-----------------------------", error);
     throw new Error(
       error.response?.data?.message || "Failed to submit portfolio"
     );
