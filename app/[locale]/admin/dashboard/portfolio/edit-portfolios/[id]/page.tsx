@@ -50,7 +50,10 @@ function EditPortfolioPage() {
     title: Yup.string().required(t("Title is required")),
     content: Yup.string().required(t("Content is required")),
     keywords: Yup.string().required(t("Keywords are required")),
-    description: Yup.string().required(t("Description is required")),
+    description: Yup.string()
+      .required("Description is required")
+      .min(10, "Description needs to be more than 10 characters")
+      .max(100, "Description needs to be less than 100 characters"),
     status: Yup.string().required(t("Status is required")),
     client: Yup.string().required(t("Client name is required")),
     startDate: Yup.string().required(t("Start date is required")),
@@ -211,10 +214,9 @@ function EditPortfolioPage() {
               {/* Description */}
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="description">Description</Label>
-                <Textarea
+                <Input
                   id="description"
                   name="description"
-                  rows={5}
                   onChange={formik.handleChange}
                   value={formik.values.description}
                   placeholder="Project description"
