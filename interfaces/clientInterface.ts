@@ -1,4 +1,5 @@
 export interface homeInterface {
+  logo: string;
   setting: {
     id: number;
     domain: string;

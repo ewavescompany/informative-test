@@ -41,6 +41,8 @@ export const adminServerUrls = {
   editMission: "/mission/manage",
   editSettings: "/setting",
   editAboutus: "/about-us/manage",
+  getLogo: "/home-page/get-logo",
+  uploadLogo: "/home-page/add-logo",
 };
 
 export const baseServerUrl = "https://v3.ewavespro.com/api";

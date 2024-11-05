@@ -8,6 +8,7 @@
     "home": "Home",
     "video_section": "Video Section",
     "stats_section": "Stats Section",
+    "nav_logo": "Nav Logo",
     "blogs": "Blogs",
     "show_blogs": "Show Blogs",
     "add_blogs": "Add Blogs",
@@ -323,6 +324,20 @@
     "Countries reached": "Countries reached",
     "M": "M",
     "Campaigns launched annually": "Campaigns launched annually"
+  },
+  "nav_logo": {
+    "add_logo": "Add Logo",
+    "logo": "Logo",
+    "logo_required": "Logo is required",
+    "logo_invalid_type": "Only JPG, PNG, SVG, and ICO files are allowed",
+    "logo_upload_success": "Upload Successful",
+    "logo_uploaded_successfully": "The logo has been uploaded successfully",
+    "logo_upload_failed": "Failed to upload logo",
+    "unexpected_error": "An unexpected error occurred",
+    "error": "Error",
+    "logo_preview": "Logo Preview",
+    "cancel": "Cancel",
+    "submit": "Submit"
   },
   "homePage": {
     "manage_home_page": "Manage Home Page",

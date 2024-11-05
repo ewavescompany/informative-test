@@ -35,7 +35,7 @@ export default async function Home() {
 
   return (
     <>
-      <Navbar />
+      <Navbar logo={res.logo} />
       <div className="min-h-screen flex flex-col gap-10">
         <VideoSection settings={res.setting} />
         <div className="flex flex-col gap-10 px-8 pb-20 sm:px-20 py-4 sm:py-10 ">
