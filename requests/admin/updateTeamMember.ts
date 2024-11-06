@@ -15,7 +15,7 @@ export const updateTeamMember = async (formData: FormData, token: string) => {
     });
 
     // Return the response from the API
-    return response.data;
+    return response;
   } catch (error) {
     // Handle errors
     if (error instanceof Error) {

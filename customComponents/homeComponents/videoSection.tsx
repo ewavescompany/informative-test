@@ -25,7 +25,7 @@ function VideoSection({ settings }: videoSectionInterface) {
         src={`${videosPath}${settings.hero_video}`}
       />
       <div className="w-full h-full flex flex-col z-10 lg:text-left text-center overflow-hidden">
-        <div className="flex flex-col gap-4 justify-center xl:py-[40%] px-[10%] lg:py-[20%] w-full h-full overflow-hidden">
+        <div className="flex flex-col gap-4 justify-center xl:py-[20%] px-[10%] lg:py-[20%] w-full h-full overflow-hidden">
           <div className="flex flex-col gap-4 overflow-hidden">
             <SlideComponent dir="down">
               <h2

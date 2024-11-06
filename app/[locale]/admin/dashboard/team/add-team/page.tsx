@@ -67,10 +67,19 @@ function TeamAddForm() {
         setIsLoading(true);
         const response = await submitTeamMember(formData, token ? token : ""); // Call the API request function
         console.log("Team member added successfully:", response);
-        toast({
-          title: t("team_member_added_successfully"),
-          description: t("team_member_added_successfully_you_can_check_it"),
-        });
+        if (response.success) {
+          toast({
+            title: t("team_member_added_successfully"),
+            description: t("team_member_added_successfully_you_can_check_it"),
+          });
+        }
+        if (!response.success) {
+          toast({
+            variant: "destructive",
+            title: t("team_member_adding_failed"),
+            description: response.error,
+          });
+        }
         setIsLoading(false);
       } catch (error) {
         toast({

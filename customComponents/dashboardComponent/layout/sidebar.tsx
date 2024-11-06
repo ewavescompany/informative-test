@@ -108,7 +108,7 @@ const Sidebar: React.FC = () => {
                   label: t("show_team"),
                 }, // Use locale from cookies
                 {
-                  href: `/${locale}/admin/dashboard/team/add-teams`, // Use locale from cookies
+                  href: `/${locale}/admin/dashboard/team/add-team`, // Use locale from cookies
                   label: t("add_teams"),
                 },
               ]}

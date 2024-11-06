@@ -79,11 +79,21 @@ function TeamEditForm() {
       try {
         setIsLoading(true);
         const response = await updateTeamMember(formData, token || "");
-        console.log(response); // Call the API request function
-        toast({
-          title: t("team_member_updated_successfully"),
-          description: t("team_member_updated_successfully_you_can_check_it"),
-        });
+        console.log("-----------: ", response); // Call the API request function
+
+        if (response.success) {
+          toast({
+            title: t("team_member_updated_successfully"),
+            description: t("team_member_updated_successfully_you_can_check_it"),
+          });
+        }
+        if (!response.success) {
+          toast({
+            variant: "destructive",
+            title: t("team_member_updating_failed"),
+            description: response.error,
+          });
+        }
         setIsLoading(false);
       } catch (error) {
         console.log(error);
