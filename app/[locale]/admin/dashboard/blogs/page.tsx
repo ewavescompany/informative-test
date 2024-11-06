@@ -12,7 +12,7 @@ import PageLoader from "@/customComponents/pageLoader";
 import { BlogInterface } from "@/interfaces/dashboardInterface";
 import Cookies from "js-cookie";
 import { dashboardBaseServerUrl, imagesPath } from "@/constants/urls";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 
 function Page() {
   const t = useTranslations("blogs");
@@ -95,4 +95,4 @@ function Page() {
   );
 }
 
-export default withAuth(Page);
+export default Page;

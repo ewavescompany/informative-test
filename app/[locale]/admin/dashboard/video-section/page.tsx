@@ -29,7 +29,7 @@ import { useFetchSettings } from "@/hooks/dashboard/useFetchSettings";
 import PageLoader from "@/customComponents/pageLoader";
 import Cookies from "js-cookie";
 import Loader from "@/customComponents/loader";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 
 function ManageHomePage() {
   const t = useTranslations("homePage"); // Translation access for the homePage namespace
@@ -270,4 +270,4 @@ function ManageHomePage() {
   );
 }
 
-export default withAuth(ManageHomePage);
+export default ManageHomePage;

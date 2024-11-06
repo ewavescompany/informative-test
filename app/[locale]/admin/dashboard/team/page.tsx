@@ -12,7 +12,7 @@ import { useTranslations } from "next-intl"; // For translations
 import { dashboardBaseServerUrl, imagesPath } from "@/constants/urls"; // Adjust the path to your constants
 import Cookies from "js-cookie";
 import PageLoader from "@/customComponents/pageLoader";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 function Page() {
   const { teamMembers, loading, error, setTeamMembers } = useFetchTeamMembers(); // Add setTeamMembers for update
   const t = useTranslations("team"); // Access translations for the team page
@@ -83,4 +83,4 @@ function Page() {
   );
 }
 
-export default withAuth(Page);
+export default Page;

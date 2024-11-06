@@ -11,7 +11,7 @@ import PageLoader from "@/customComponents/pageLoader";
 import { useTranslations } from "next-intl";
 import { dashboardBaseServerUrl, imagesPath } from "@/constants/urls";
 import Cookies from "js-cookie";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 // Import the removeTestimonial function
 
 function Page() {
@@ -90,4 +90,4 @@ function Page() {
   );
 }
 
-export default withAuth(Page);
+export default Page;

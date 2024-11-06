@@ -34,7 +34,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Loader from "@/customComponents/loader";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 // Validation Schema
 
 function Page() {
@@ -370,4 +370,4 @@ function Page() {
   );
 }
 
-export default withAuth(Page);
+export default Page;

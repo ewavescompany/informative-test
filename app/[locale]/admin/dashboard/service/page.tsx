@@ -12,7 +12,7 @@ import CardComponent from "@/customComponents/dashboardComponent/cards/cardCompo
 import { Service } from "@/interfaces/dashboardInterface";
 import { dashboardBaseServerUrl, imagesPath } from "@/constants/urls";
 import { DeleteDialog } from "@/customComponents/dashboardComponent/dialog/deleteDialog";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 
 function Page() {
   const { services, loading, error, setServices } = useFetchServices();
@@ -87,4 +87,4 @@ function Page() {
   );
 }
 
-export default withAuth(Page);
+export default Page;

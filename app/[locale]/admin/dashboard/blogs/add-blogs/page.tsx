@@ -31,7 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 // Page Component
 function Page() {
   const { toast } = useToast();
@@ -325,4 +325,4 @@ function Page() {
   );
 }
 
-export default withAuth(Page);
+export default Page;

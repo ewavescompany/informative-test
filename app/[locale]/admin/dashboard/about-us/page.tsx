@@ -23,7 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 import { useFetchAboutus } from "@/hooks/dashboard/useFetchAboutus";
 import { useTranslations } from "next-intl";
 import Cookies from "js-cookie";
@@ -145,4 +145,4 @@ function Page() {
   );
 }
 
-export default withAuth(Page);
+export default Page;

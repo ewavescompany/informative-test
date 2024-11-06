@@ -12,7 +12,7 @@ import { Portfolio } from "@/interfaces/dashboardInterface";
 import Cookies from "js-cookie";
 import { dashboardBaseServerUrl, imagesPath } from "@/constants/urls";
 import { useTranslations } from "next-intl";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 function Page() {
   const { portfolios, loading, error, setPortfolios } = useFetchPortfolios();
   console.log(portfolios);
@@ -83,4 +83,4 @@ function Page() {
   );
 }
 
-export default withAuth(Page);
+export default Page;

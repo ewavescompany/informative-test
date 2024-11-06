@@ -33,7 +33,7 @@ import PageLoader from "@/customComponents/pageLoader";
 import Cookies from "js-cookie";
 import Loader from "@/customComponents/loader";
 import { updateService } from "@/requests/admin/editService";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 function Page() {
   const [mainImagePreview, setMainImagePreview] = useState<File | null>(null);
   const locale = Cookies.get("NEXT_LOCALE") || "en";
@@ -246,4 +246,4 @@ function Page() {
   );
 }
 
-export default withAuth(Page);
+export default Page;

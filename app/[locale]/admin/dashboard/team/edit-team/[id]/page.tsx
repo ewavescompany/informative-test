@@ -31,7 +31,7 @@ import { useParams } from "next/navigation"; // Assuming you're using next/navig
 import PageLoader from "@/customComponents/pageLoader";
 import Cookies from "js-cookie";
 import { updateTeamMember } from "@/requests/admin/updateTeamMember";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 function TeamEditForm() {
   const params = useParams<{ id: string }>(); // Get the team member ID from the URL params
   const { teamMember, loading } = useFetchTeamMember(params.id); // Fetch team member data
@@ -228,4 +228,4 @@ function TeamEditForm() {
   );
 }
 
-export default withAuth(TeamEditForm);
+export default TeamEditForm;

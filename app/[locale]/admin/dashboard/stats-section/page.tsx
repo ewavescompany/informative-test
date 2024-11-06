@@ -28,7 +28,7 @@ import PageLoader from "@/customComponents/pageLoader";
 import { useTranslations } from "next-intl";
 import { useToast } from "@/hooks/use-toast"; // Assuming you have a toast hook
 import Cookies from "js-cookie";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 // Validation Schema using Yup
 
 function StatsPage() {
@@ -276,4 +276,4 @@ function StatsPage() {
   );
 }
 
-export default withAuth(StatsPage);
+export default StatsPage;

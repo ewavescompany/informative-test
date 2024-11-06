@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 // Import the interface if needed
 import { Layers3, Newspaper, Fingerprint, Users } from "lucide-react";
 import PageLoader from "@/customComponents/pageLoader";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 function Page() {
   const t = useTranslations("mainDashboard");
   const { data: dashboardData, loading, error } = useDashboardData(); // Use the custom hook
@@ -51,4 +51,4 @@ function Page() {
   );
 }
 
-export default withAuth(Page);
+export default Page;

@@ -1,5 +1,5 @@
 "use client";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 import { DashboardTitle } from "@/customComponents/dashboardComponent/tags/dashboardTitle";
 import PageLoader from "@/customComponents/pageLoader";
 import useFetchContactMessages from "@/hooks/dashboard/useFetchContactMessages";
@@ -72,4 +72,4 @@ function Page() {
   );
 }
 
-export default withAuth(Page);
+export default Page;

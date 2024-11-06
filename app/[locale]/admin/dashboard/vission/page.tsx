@@ -31,7 +31,7 @@ import { useTranslations } from "next-intl"; // Import translation hook
 import Cookies from "js-cookie";
 import { updateVisionData } from "@/requests/admin/updateVisionData";
 import Loader from "@/customComponents/loader";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 
 // Yup validation schema with translated error messages
 
@@ -251,4 +251,4 @@ function Page() {
   );
 }
 
-export default withAuth(Page);
+export default Page;

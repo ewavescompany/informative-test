@@ -27,7 +27,7 @@ import { useTranslations } from "next-intl"; // For translations
 import { submitTeamMember } from "@/requests/admin/team"; // Import the request function
 import Loader from "@/customComponents/loader";
 import { useToast } from "@/hooks/use-toast";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 
 function TeamAddForm() {
   const t = useTranslations("team"); // Access translations for the 'team' namespace
@@ -211,4 +211,5 @@ function TeamAddForm() {
   );
 }
 
-export default withAuth(TeamAddForm);
+// export default withAuth(TeamAddForm);
+export default TeamAddForm;

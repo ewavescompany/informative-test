@@ -32,7 +32,7 @@ import { useTranslations } from "next-intl";
 import { editPortfolio } from "@/requests/admin/editPortfolio";
 import Loader from "@/customComponents/loader";
 import { useToast } from "@/hooks/use-toast";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 // Validation Schema
 
 function EditPortfolioPage() {
@@ -384,4 +384,4 @@ function EditPortfolioPage() {
   );
 }
 
-export default withAuth(EditPortfolioPage);
+export default EditPortfolioPage;

@@ -18,7 +18,7 @@ import { useFetchSettings } from "@/hooks/dashboard/useFetchSettings";
 import PageLoader from "@/customComponents/pageLoader";
 import Cookies from "js-cookie";
 import { updateSettings } from "@/requests/admin/updateSettings";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 // Yup validation schema
 
 function SettingsPage() {
@@ -318,4 +318,4 @@ function SettingsPage() {
   );
 }
 
-export default withAuth(SettingsPage);
+export default SettingsPage;

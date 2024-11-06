@@ -26,7 +26,7 @@ import Image from "next/image";
 import { useToast } from "@/hooks/use-toast";
 import { addTestimonial } from "@/requests/admin/testimonials"; // Import the request function
 import { useTranslations } from "next-intl"; // For translations
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 
 // Validation Schema
 
@@ -222,4 +222,4 @@ function AddTestimonialPage() {
   );
 }
 
-export default withAuth(AddTestimonialPage);
+export default AddTestimonialPage;

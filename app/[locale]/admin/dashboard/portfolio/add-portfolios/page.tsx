@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/select";
 import { submitPortfolio } from "@/requests/admin/addPortfolio";
 import { useToast } from "@/hooks/use-toast";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 // Validation Schema
 
 function Page() {
@@ -420,4 +420,4 @@ function Page() {
   );
 }
 
-export default withAuth(Page);
+export default Page;

@@ -29,7 +29,7 @@ import { useTranslations } from "next-intl"; // Hook for translations
 import { submitService } from "@/requests/admin/addService";
 import Loader from "@/customComponents/loader";
 import { useToast } from "@/hooks/use-toast";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 
 function Page() {
   const [mainImagePreview, setMainImagePreview] = useState<File | null>(null);
@@ -230,4 +230,4 @@ function Page() {
   );
 }
 
-export default withAuth(Page);
+export default Page;

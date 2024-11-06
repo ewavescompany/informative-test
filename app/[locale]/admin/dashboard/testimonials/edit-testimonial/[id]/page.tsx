@@ -31,7 +31,7 @@ import { useParams } from "next/navigation"; // Assuming you're using next/navig
 import PageLoader from "@/customComponents/pageLoader";
 import Loader from "@/customComponents/loader";
 import Cookies from "js-cookie";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 function EditTestimonialPage() {
   const params = useParams<{ id: string }>(); // Get the testimonial ID from the URL params
   const { testimonial, loading } = useFetchTestimonial(params?.id);
@@ -254,4 +254,4 @@ function EditTestimonialPage() {
   );
 }
 
-export default withAuth(EditTestimonialPage);
+export default EditTestimonialPage;

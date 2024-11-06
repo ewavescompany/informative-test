@@ -20,19 +20,18 @@ import { DropdownNavItem } from "@/customComponents/layoutComponents/dropdownNav
 import { useTranslations } from "next-intl";
 import Cookies from "js-cookie"; // Import the js-cookie library
 
+// const  = Cookies.get("NEXT_LOCALE") || "en"; // Default to 'en' if no locale is found
+// const  = "http://localhost:3000/en"; // Default to 'en' if no locale is found
+
 const Sidebar: React.FC = () => {
-  // Read the locale from cookies (stored in 'locale')
-  const locale = Cookies.get("NEXT_LOCALE") || "en"; // Default to 'en' if no locale is found
+  // Read the  from cookies (stored in 'locale')
   const t = useTranslations("sidebar");
 
   return (
     <div className="hidden border-r bg-muted/40 md:block ">
       <div className="flex h-full max-h-screen min-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-          <Link
-            href={`/${locale}`}
-            className="flex items-center gap-2 font-semibold"
-          >
+          <Link href={`/`} className="flex items-center gap-2 font-semibold">
             <Package2 className="h-6 w-6" />
             <span>{t("company_name")}</span>
           </Link>
@@ -44,11 +43,11 @@ const Sidebar: React.FC = () => {
               label={t("home")}
               items={[
                 {
-                  href: `/${locale}/admin/dashboard/video-section`, // Use locale from cookies
+                  href: `/video-section`, // Use locale from cookies
                   label: t("video_section"),
                 },
                 {
-                  href: `/${locale}/admin/dashboard/stats-section`, // Use locale from cookies
+                  href: `/stats-section`, // Use locale from cookies
                   label: t("stats_section"),
                 },
               ]}
@@ -58,11 +57,11 @@ const Sidebar: React.FC = () => {
               label={t("blogs")}
               items={[
                 {
-                  href: `/${locale}/admin/dashboard/blogs`,
+                  href: `/admin/dashboard/blogs`,
                   label: t("show_blogs"),
-                }, // Use locale from cookies
+                }, // Use  from cookies
                 {
-                  href: `/${locale}/admin/dashboard/blogs/add-blogs`, // Use locale from cookies
+                  href: `/admin/dashboard/blogs/add-blogs`, // Use locale from cookies
                   label: t("add_blogs"),
                 },
               ]}
@@ -72,11 +71,11 @@ const Sidebar: React.FC = () => {
               label={t("portfolios")}
               items={[
                 {
-                  href: `/${locale}/admin/dashboard/portfolio`, // Use locale from cookies
+                  href: `/admin/dashboard/portfolio`, // Use locale from cookies
                   label: t("show_portfolio"),
                 },
                 {
-                  href: `/${locale}/admin/dashboard/portfolio/add-portfolios`, // Use locale from cookies
+                  href: `/admin/dashboard/portfolio/add-portfolios`, // Use locale from cookies
                   label: t("add_portfolio"),
                 },
               ]}
@@ -86,11 +85,11 @@ const Sidebar: React.FC = () => {
               label={t("services")}
               items={[
                 {
-                  href: `/${locale}/admin/dashboard/service`,
+                  href: `/admin/dashboard/service`,
                   label: t("show_services"),
-                }, // Use locale from cookies
+                }, // Use  from cookies
                 {
-                  href: `/${locale}/admin/dashboard/service/add-services`, // Use locale from cookies
+                  href: `/admin/dashboard/service/add-services`, // Use locale from cookies
                   label: t("add_services"),
                 },
               ]}
@@ -100,11 +99,11 @@ const Sidebar: React.FC = () => {
               label={t("teams")}
               items={[
                 {
-                  href: `/${locale}/admin/dashboard/team`,
+                  href: `/admin/dashboard/team`,
                   label: t("show_team"),
-                }, // Use locale from cookies
+                }, // Use  from cookies
                 {
-                  href: `/${locale}/admin/dashboard/team/add-teams`, // Use locale from cookies
+                  href: `/admin/dashboard/team/add-team`, // Use locale from cookies
                   label: t("add_teams"),
                 },
               ]}
@@ -114,40 +113,40 @@ const Sidebar: React.FC = () => {
               label={t("testimonials")}
               items={[
                 {
-                  href: `/${locale}/admin/dashboard/testimonials`, // Use locale from cookies
+                  href: `/admin/dashboard/testimonials`, // Use locale from cookies
                   label: t("show_testimonials"),
                 },
                 {
-                  href: `/${locale}/admin/dashboard/testimonials/add-testimonial`, // Use locale from cookies
+                  href: `/admin/dashboard/testimonials/add-testimonial`, // Use locale from cookies
                   label: t("add_testimonials"),
                 },
               ]}
             />
             <SidebarLink
-              href={`/${locale}/admin/dashboard/about-us`} // Use locale from cookies
+              href={`/admin/dashboard/about-us`} // Use locale from cookies
               icon={Signature}
               label={t("about_us")}
             />
             <SidebarLink
-              href={`/${locale}/admin/dashboard/mission`}
+              href={`/admin/dashboard/mission`}
               icon={Lightbulb}
               label={t("mission")}
-            />{" "}
-            {/* Use locale from cookies */}
+            />
+            {/* Use  from cookies */}
             <SidebarLink
-              href={`/${locale}/admin/dashboard/vission`}
+              href={`/admin/dashboard/vission`}
               icon={Eye}
               label={t("vision")}
-            />{" "}
-            {/* Use locale from cookies */}
+            />
+            {/* Use  from cookies */}
             <SidebarLink
-              href={`/${locale}/admin/dashboard/contact-messages`}
+              href={`/admin/dashboard/contact-messages`}
               icon={Mails}
               label={t("contact_message")}
-            />{" "}
-            {/* Use locale from cookies */}
+            />
+            {/* Use  from cookies */}
             <SidebarLink
-              href={`/${locale}/admin/dashboard/settings`} // Use locale from cookies
+              href={`/admin/dashboard/settings`} // Use locale from cookies
               icon={Settings}
               label={t("settings")}
             />

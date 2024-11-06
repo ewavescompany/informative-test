@@ -30,7 +30,7 @@ import { useTranslations } from "next-intl"; // For translations
 import { useToast } from "@/hooks/use-toast"; // For displaying success and error toasts
 import Cookies from "js-cookie";
 import { updateMissionData } from "@/requests/admin/updateMissionData";
-import withAuth from "@/app/hocs/withAuth";
+// import withAuth from "@/app/hocs/withAuth";
 // Yup validation schema
 
 function Page() {
@@ -249,4 +249,4 @@ function Page() {
   );
 }
 
-export default withAuth(Page);
+export default Page;
