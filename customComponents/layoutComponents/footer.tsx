@@ -16,7 +16,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import bgUrl from "../../public/Services-How-BG.webp";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
+import Cookies from "js-cookie";
+
 function Footer() {
+  const locale = Cookies.get("NEXT_LOCALE") || "en";
+  const t = useTranslations("navbar");
+
   return (
     <div className="w-full relative min-h-[60px] bg-grayblack px-8 pb-20 sm:px-20 py-4 sm:py-10 grid gap-5 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 dotbg">
       <Image
@@ -24,40 +30,49 @@ function Footer() {
         alt="mission"
         src={bgUrl}
       />
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 relative z-10">
         <h4 className="lg:text-3xl text-xl text-graywhite font-medium flex flex-row items-center justify-center w-fit gap-3">
           <Route />
           <span>pages</span>
         </h4>
+
         <Link
+          href={"/"}
           className="lg:text-lg text-base text-graywhite font-medium"
-          href={"/home"}
         >
-          Home
+          {t("home")}
         </Link>
-        <Link
+
+        {/* <Link
           className="lg:text-lg text-base text-graywhite font-medium"
           href={"/about-us"}
         >
           About us
+        </Link> */}
+
+        <Link
+          href={`/${locale}/client/services`}
+          className="lg:text-lg text-base text-graywhite font-medium"
+        >
+          {t("services")}
         </Link>
         <Link
+          href={`/${locale}/client/portfolio`}
           className="lg:text-lg text-base text-graywhite font-medium"
-          href={"/services"}
         >
-          Services
+          {t("portfolio")}
         </Link>
         <Link
+          href={`/${locale}/client/blogs`}
           className="lg:text-lg text-base text-graywhite font-medium"
-          href={"/contact-us"}
         >
-          Contact us
+          {t("blogs")}
         </Link>
         <Link
+          href={`/${locale}/client/contact-us`}
           className="lg:text-lg text-base text-graywhite font-medium"
-          href={"/blogs"}
         >
-          Blogs
+          {t("contact_us")}
         </Link>
       </div>
       <div className="flex flex-col gap-3">

@@ -51,23 +51,17 @@ function Navbar({ logo }: { logo: string }) {
         <Link href={"/"} className="text-base font-semibold">
           {t("home")}
         </Link>
-        <Link
+        {/* <Link
           href={`/${locale}/client/about-us`}
           className="text-base font-semibold"
         >
           {t("about_us")}
-        </Link>
+        </Link> */}
         <Link
           href={`/${locale}/client/services`}
           className="text-base font-semibold"
         >
           {t("services")}
-        </Link>
-        <Link
-          href={`/${locale}/client/contact-us`}
-          className="text-base font-semibold"
-        >
-          {t("contact_us")}
         </Link>
         <Link
           href={`/${locale}/client/portfolio`}
@@ -80,6 +74,12 @@ function Navbar({ logo }: { logo: string }) {
           className="text-base font-semibold"
         >
           {t("blogs")}
+        </Link>
+        <Link
+          href={`/${locale}/client/contact-us`}
+          className="text-base font-semibold"
+        >
+          {t("contact_us")}
         </Link>
       </div>
       <div
