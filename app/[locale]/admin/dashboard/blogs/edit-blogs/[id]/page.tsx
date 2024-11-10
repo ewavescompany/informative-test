@@ -37,6 +37,16 @@ import InputTag from "../../inputTag";
 import { useRouter } from "next/navigation";
 // Validation Schema
 
+interface BlogFormValues {
+  blogLang: string;
+  name: string;
+  content: string;
+  blogImg: File | null;
+  tags: string[];
+  metaDescription: string;
+  metaKeywords: string;
+}
+
 function Page() {
   const router = useRouter();
   const t = useTranslations("blogForm"); // Access translations for the blog form
@@ -73,8 +83,8 @@ function Page() {
     blogLang: Yup.string().required(t("lang_required")),
   });
 
-  const formik = useFormik({
-    enableReinitialize: true, // Enable reinitialization when blogData is loaded
+  const formik = useFormik<BlogFormValues>({
+    enableReinitialize: true,
     initialValues: {
       blogLang: "",
       name: blogData
@@ -90,8 +100,8 @@ function Page() {
       blogImg: null,
       tags: blogData
         ? locale === "en"
-          ? blogData.tags_en?.split(",").map((tag: string) => tag.trim()) // Convert string to array and trim spaces
-          : blogData.tags_ar?.split(",").map((tag: string) => tag.trim()) // Convert string to array and trim spaces
+          ? blogData.tags_en?.split(",").map((tag: string) => tag.trim())
+          : blogData.tags_ar?.split(",").map((tag: string) => tag.trim())
         : [],
       metaDescription: blogData
         ? locale === "en"
@@ -107,30 +117,26 @@ function Page() {
     validationSchema,
     onSubmit: async (values) => {
       setPosting(true);
-
       const formData = new FormData();
       formData.append("id", params.id);
       formData.append("title", values.name);
       formData.append("content", values.content);
       formData.append("description", values.metaDescription);
       formData.append("keywords", values.metaKeywords);
-      formData.append("lang", values.blogLang); // Append blogLang
+      formData.append("lang", values.blogLang);
       formData.append("tags", values.tags.join(", "));
       if (values.blogImg) {
         formData.append("image", values.blogImg);
       }
       const token = localStorage.getItem("authToken");
       try {
-        const response = await editBlog(formData, token ? token : "");
-
+        const response = await editBlog(formData, token || "");
         if (response.blog) {
           toast({
             title: t("blog_added_successfully"),
             description: t("blog_added_successfully_you_can_check_it"),
           });
-          // formik.resetForm();
           router.push("/admin/dashboard/blogs");
-          //reset inputs
           setTags([]);
         } else {
           toast({
@@ -141,7 +147,6 @@ function Page() {
         }
       } catch (error) {
         console.error("Error updating blog:", error);
-
         toast({
           variant: "destructive",
           title: t("blog_adding_failed"),

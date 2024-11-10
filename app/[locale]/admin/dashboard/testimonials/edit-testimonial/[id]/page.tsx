@@ -29,7 +29,6 @@ import { useTranslations } from "next-intl";
 import { useFetchTestimonial } from "@/hooks/dashboard/fetchTestimonialById"; // Hook to fetch testimonial
 import { useParams } from "next/navigation"; // Assuming you're using next/navigation for getting the ID
 import PageLoader from "@/customComponents/pageLoader";
-import Loader from "@/customComponents/loader";
 import Cookies from "js-cookie";
 import withAuth from "@/app/hocs/withAuth";
 import { useRouter } from "next/navigation";

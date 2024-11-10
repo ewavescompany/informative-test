@@ -1,3 +1,4 @@
+import { FormikProps } from "formik";
 import { useState } from "react";
 import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -5,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormikProps } from "formik";
 
 interface BlogFormValues {
   blogLang: string;
@@ -27,29 +27,25 @@ export default function InputTag({
   formik: FormikProps<BlogFormValues>;
 }) {
   const [tagInput, setTagInput] = useState("");
-  const t = useTranslations("blogForm"); // Translation object for the selected language
+  const t = useTranslations("blogForm");
 
   function isValidTag() {
     return tagInput && !tags.includes(tagInput);
   }
 
-  // Function to add a new tag
   function handleAddTag() {
     if (isValidTag()) {
       const newTags = [...tags, tagInput];
       setTags(newTags);
       setTagInput("");
-
-      formik.setFieldValue("tags", newTags); // Update Formik state with new tags
+      formik.setFieldValue("tags", newTags);
     }
   }
 
-  // Function to remove a tag
   function handleRemoveTag(tag: string) {
     const newTags = tags.filter((t) => t !== tag);
     setTags(newTags);
-
-    formik.setFieldValue("tags", newTags); // Update Formik state with removed tag
+    formik.setFieldValue("tags", newTags);
   }
 
   return (

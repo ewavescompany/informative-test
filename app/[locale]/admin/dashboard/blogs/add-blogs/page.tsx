@@ -33,6 +33,16 @@ import withAuth from "@/app/hocs/withAuth";
 import InputTag from "@/app/[locale]/admin/dashboard/blogs/inputTag";
 import { useRouter } from "next/navigation";
 
+interface BlogFormValues {
+  name: string;
+  content: string;
+  blogImg: File | null;
+  tags: string[];
+  metaDescription: string;
+  metaKeywords: string;
+  blogLang: string;
+}
+
 // Page Component
 function Page() {
   const router = useRouter();
@@ -54,7 +64,7 @@ function Page() {
   });
 
   // Formik setup
-  const formik = useFormik({
+  const formik = useFormik<BlogFormValues>({
     initialValues: {
       name: "",
       content: "",
@@ -62,27 +72,24 @@ function Page() {
       tags: [],
       metaDescription: "",
       metaKeywords: "",
-      blogLang: "", // Added this field
+      blogLang: "",
     },
     validationSchema,
     onSubmit: async (values) => {
       setLoadingSubmitting(true);
 
-      console.log(values);
-      // Handle form submission here
       const formData = new FormData();
-      // Append form data
       formData.append("title", values.name);
       formData.append("content", values.content);
       formData.append("description", values.metaDescription);
       formData.append("keywords", values.metaKeywords);
-      formData.append("lang", values.blogLang); // Append blogLang
+      formData.append("lang", values.blogLang);
       formData.append("tags", values.tags.join(", "));
-      if (values.blogImg) formData.append("image", values.blogImg); // Blog image file
+      if (values.blogImg) formData.append("image", values.blogImg);
+
       const token = localStorage.getItem("authToken");
       try {
-        // Send the blog data using the sendBlog function
-        const response = await sendBlog(formData, token ? token : "");
+        const response = await sendBlog(formData, token || "");
 
         if (response.success) {
           toast({
@@ -92,7 +99,7 @@ function Page() {
           formik.resetForm();
           router.push("/admin/dashboard/blogs");
 
-          //reset inputs
+          // Reset tags state if needed
           setTags([]);
         } else {
           toast({
