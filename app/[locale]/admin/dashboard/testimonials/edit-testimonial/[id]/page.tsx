@@ -32,7 +32,10 @@ import PageLoader from "@/customComponents/pageLoader";
 import Loader from "@/customComponents/loader";
 import Cookies from "js-cookie";
 import withAuth from "@/app/hocs/withAuth";
+import { useRouter } from "next/navigation";
+
 function EditTestimonialPage() {
+  const router = useRouter();
   const params = useParams<{ id: string }>(); // Get the testimonial ID from the URL params
   const { testimonial, loading } = useFetchTestimonial(params?.id);
   const { toast } = useToast();
@@ -72,6 +75,8 @@ function EditTestimonialPage() {
     enableReinitialize: true, // Allow form to be reinitialized when the testimonial data is fetched
     validationSchema,
     onSubmit: async (values) => {
+      setIsLoading(true); // Set loading state
+
       const formData = new FormData();
       formData.append("name", values.name);
       formData.append("message", values.message);
@@ -84,14 +89,22 @@ function EditTestimonialPage() {
 
       const token = localStorage.getItem("authToken"); // Retrieve token from localStorage
       try {
-        setIsLoading(true); // Set loading state
         const response = await updateTestimonial(formData, token || "");
-        console.log(response);
-        toast({
-          title: t("testimonial_updated_successfully"),
-          description: t("testimonial_updated_check"),
-        });
-        setIsLoading(false);
+        if (response.data) {
+          toast({
+            title: t("testimonial_added_successfully"),
+            description: t("testimonial_added_check"),
+          });
+
+          //navigate to show all testimonial page when request done will
+          router.push("/admin/dashboard/testimonials");
+        } else {
+          toast({
+            variant: "destructive",
+            title: t("testimonial_add_failed"),
+            description: response?.error,
+          });
+        }
       } catch (error) {
         toast({
           variant: "destructive",
@@ -245,7 +258,7 @@ function EditTestimonialPage() {
               {t("cancel")}
             </Button>
             <Button disabled={isLoading} type="submit">
-              {isLoading ? <Loader size={14} /> : t("submit")}
+              {isLoading ? "loading..." : t("submit")}
             </Button>
           </CardFooter>
         </form>

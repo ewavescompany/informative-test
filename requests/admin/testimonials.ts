@@ -12,7 +12,7 @@ export const addTestimonial = async (formData: FormData, token: string) => {
         "Content-Type": "multipart/form-data", // For file upload
       },
     });
-    return response.data;
+    return response;
   } catch (error) {
     if (error instanceof Error) {
       throw error;

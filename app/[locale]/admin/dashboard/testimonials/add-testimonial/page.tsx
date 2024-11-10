@@ -27,10 +27,12 @@ import { useToast } from "@/hooks/use-toast";
 import { addTestimonial } from "@/requests/admin/testimonials"; // Import the request function
 import { useTranslations } from "next-intl"; // For translations
 import withAuth from "@/app/hocs/withAuth";
-
+import { useRouter } from "next/navigation";
 // Validation Schema
 
 function AddTestimonialPage() {
+  const router = useRouter();
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState<File | null>(null); // Preview for image
   const { toast } = useToast();
   const t = useTranslations("testimonials");
@@ -53,6 +55,7 @@ function AddTestimonialPage() {
     },
     validationSchema,
     onSubmit: async (values) => {
+      setIsSubmitLoading(true);
       const formData = new FormData();
       // Append file to FormData
       formData.append("name", values.name);
@@ -64,16 +67,30 @@ function AddTestimonialPage() {
       try {
         const response = await addTestimonial(formData, token || "");
         console.log(response);
-        toast({
-          title: t("testimonial_added_successfully"),
-          description: t("testimonial_added_check"),
-        });
+        if (response.data) {
+          toast({
+            title: t("testimonial_added_successfully"),
+            description: t("testimonial_added_check"),
+          });
+
+          //navigate to show all testimonial page when request done will
+          router.push("/admin/dashboard/testimonials");
+        } else {
+          toast({
+            variant: "destructive",
+            title: t("testimonial_add_failed"),
+            description: response?.error,
+          });
+        }
       } catch (error) {
         toast({
           variant: "destructive",
           title: t("testimonial_add_failed"),
+          description: "Error happened When add testimonial",
         });
         console.error("Failed to add testimonial:", error);
+      } finally {
+        setIsSubmitLoading(false);
       }
     },
   });
@@ -214,7 +231,9 @@ function AddTestimonialPage() {
             >
               {t("cancel")}
             </Button>
-            <Button type="submit">{t("submit")}</Button>
+            <Button type="submit" disabled={isSubmitLoading}>
+              {isSubmitLoading ? "loading..." : t("submit")}
+            </Button>
           </CardFooter>
         </form>
       </Card>

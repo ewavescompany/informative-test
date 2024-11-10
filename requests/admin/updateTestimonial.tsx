@@ -14,7 +14,7 @@ export const updateTestimonial = async (formData: FormData, token: string) => {
         "Content-Type": "multipart/form-data", // Ensure correct content type
       },
     });
-    return response?.data; // Return the response data
+    return response; // Return the response data
   } catch (error) {
     // Handle errors
     if (error instanceof Error) {
