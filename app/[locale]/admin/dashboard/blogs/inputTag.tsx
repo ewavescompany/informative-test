@@ -5,6 +5,17 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { FormikProps } from "formik";
+
+interface BlogFormValues {
+  blogLang: string;
+  name: string;
+  content: string;
+  blogImg: File | null;
+  tags: string[];
+  metaDescription: string;
+  metaKeywords: string;
+}
 
 export default function InputTag({
   tags,
@@ -13,7 +24,7 @@ export default function InputTag({
 }: {
   tags: string[];
   setTags: React.Dispatch<React.SetStateAction<string[]>>;
-  formik: any;
+  formik: FormikProps<BlogFormValues>;
 }) {
   const [tagInput, setTagInput] = useState("");
   const t = useTranslations("blogForm"); // Translation object for the selected language
