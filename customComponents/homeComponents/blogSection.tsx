@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 import Cookies from "js-cookie";
 import { formatDate } from "@/utility/generic";
 import { imagesPath } from "@/constants/urls";
+import { useRouter } from "next/navigation";
 
 function BlogSection({ blogs }: { blogs: blogsInterface[] }) {
   const locale = Cookies.get("NEXT_LOCALE") || "en";
@@ -51,6 +52,7 @@ function BlogSection({ blogs }: { blogs: blogsInterface[] }) {
           {blogs.map((blog: blogsInterface, index: number) => (
             <SwiperSlide key={index} className="w-full h-full overflow-hidden">
               <BlogCard
+                blogId={blog.id}
                 index={index}
                 blogImgUrl={`${imagesPath}blogs/${blog.image}`}
                 title={locale === "ar" ? blog.title_ar : blog.title_en}
@@ -70,21 +72,28 @@ function BlogSection({ blogs }: { blogs: blogsInterface[] }) {
 export default BlogSection;
 
 function BlogCard({
+  blogId,
   blogImgUrl,
   title,
   describition,
   date,
   index,
 }: {
+  blogId: number;
   blogImgUrl: string;
   title: string;
   describition: string;
   date: string;
   index: number;
 }) {
+  const router = useRouter();
+
   return (
     <SlideComponent delay={index * 100} dir="down">
-      <div className="w-full h-full flex flex-col gap-2">
+      <div
+        onClick={() => router.push(`/client/blogs/${blogId}`)}
+        className="w-full h-full flex flex-col gap-2 cursor-pointer"
+      >
         <img
           src={blogImgUrl}
           className="aspect-video w-full border-2 border-white rounded-lg shadow-md hover:shadow-lg duration-1000 object-cover"

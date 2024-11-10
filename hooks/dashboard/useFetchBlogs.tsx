@@ -12,7 +12,7 @@ const useFetchBlogs = () => {
     const fetchBlogs = async () => {
       try {
         const response = await getBlogs();
-        setBlogs({ data: response });
+        setBlogs({ data: response.data });
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);

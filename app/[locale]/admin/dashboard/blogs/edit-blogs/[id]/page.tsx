@@ -12,8 +12,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { X } from "lucide-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ReactQuill from "react-quill";
@@ -33,21 +31,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Loader from "@/customComponents/loader";
 import withAuth from "@/app/hocs/withAuth";
+import { toast } from "@/hooks/use-toast";
+import InputTag from "../../inputTag";
+import { useRouter } from "next/navigation";
 // Validation Schema
 
 function Page() {
+  const router = useRouter();
   const t = useTranslations("blogForm"); // Access translations for the blog form
   const locale = Cookies.get("NEXT_LOCALE") || "en"; // Get language from cookies
   const params = useParams<{ id: string }>();
 
-  const { blogData, loading, error } = useFetchBlogData(4, locale);
+  const { blogData, loading, error } = useFetchBlogData(
+    Number(params.id),
+    locale
+  );
   const [content, setContent] = useState(""); // Quill content state
   const [tags, setTags] = useState<string[]>([]); // State for tags management
-  const [tagInput, setTagInput] = useState(""); // For adding a new tag
   const [posting, setPosting] = useState(false);
-  console.log(blogData);
+
   useEffect(() => {
     if (blogData) {
       setContent(locale === "en" ? blogData.content_en : blogData.content_ar);
@@ -103,6 +106,8 @@ function Page() {
     },
     validationSchema,
     onSubmit: async (values) => {
+      setPosting(true);
+
       const formData = new FormData();
       formData.append("id", params.id);
       formData.append("title", values.name);
@@ -116,34 +121,37 @@ function Page() {
       }
       const token = localStorage.getItem("authToken");
       try {
-        setPosting(true);
         const response = await editBlog(formData, token ? token : "");
-        console.log("Blog updated successfully:", response);
-        formik.resetForm();
-        setPosting(false);
+
+        if (response.blog) {
+          toast({
+            title: t("blog_added_successfully"),
+            description: t("blog_added_successfully_you_can_check_it"),
+          });
+          // formik.resetForm();
+          router.push("/admin/dashboard/blogs");
+          //reset inputs
+          setTags([]);
+        } else {
+          toast({
+            variant: "destructive",
+            title: t("blog_adding_failed"),
+            description: response?.error,
+          });
+        }
       } catch (error) {
-        setPosting(false);
         console.error("Error updating blog:", error);
+
+        toast({
+          variant: "destructive",
+          title: t("blog_adding_failed"),
+          description: "Error happened when editing blog",
+        });
+      } finally {
+        setPosting(false);
       }
     },
   });
-
-  // Function to add a new tag
-  const handleAddTag = () => {
-    if (tagInput && !tags.includes(tagInput)) {
-      const newTags = [...tags, tagInput];
-      setTags(newTags);
-      setTagInput("");
-      formik.setFieldValue("tags", newTags); // Update Formik state with new tags
-    }
-  };
-
-  // Function to remove a tag
-  const handleRemoveTag = (tag: string) => {
-    const newTags = tags.filter((t) => t !== tag);
-    setTags(newTags);
-    formik.setFieldValue("tags", newTags); // Update Formik state with removed tag
-  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading blog data</div>;
@@ -183,49 +191,7 @@ function Page() {
               </div>
 
               {/* Tags */}
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="tags">{t("tags")}</Label>
-                <div className="flex flex-row space-x-1.5 items-center">
-                  <Input
-                    value={tagInput}
-                    onChange={(e) => setTagInput(e.target.value)}
-                    placeholder={t("tag_placeholder")}
-                    className="max-w-[500px] w-full"
-                  />
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    type="button"
-                    onClick={handleAddTag}
-                  >
-                    {t("tag_add")}
-                  </Button>
-                </div>
-
-                <div className="flex flex-row flex-wrap space-x-1.5">
-                  {tags.map((tag, index) => (
-                    <Badge
-                      key={index}
-                      variant="default"
-                      className="flex flex-row space-x-1.5 h-8"
-                    >
-                      <span>{tag}</span>
-                      <X
-                        size={18}
-                        onClick={() => handleRemoveTag(tag)}
-                        className="cursor-pointer"
-                      />
-                    </Badge>
-                  ))}
-                </div>
-                {formik.errors.tags && formik.touched.tags && (
-                  <div className="text-red-500 text-sm">
-                    {typeof formik.errors.tags === "string"
-                      ? formik.errors.tags
-                      : JSON.stringify(formik.errors.tags)}
-                  </div>
-                )}
-              </div>
+              <InputTag formik={formik} tags={tags} setTags={setTags} />
 
               {/* Blog Image */}
               <div className="flex flex-col space-y-1.5">
@@ -361,7 +327,7 @@ function Page() {
               {t("cancel")}
             </Button>
             <Button type="submit" disabled={posting}>
-              {posting ? <Loader size={14} /> : t("publish")}
+              {posting ? "loading..." : t("publish")}
             </Button>
           </CardFooter>
         </form>

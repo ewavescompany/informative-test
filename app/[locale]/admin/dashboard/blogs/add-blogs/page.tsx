@@ -12,8 +12,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { X } from "lucide-react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ReactQuill from "react-quill";
@@ -32,13 +30,17 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import withAuth from "@/app/hocs/withAuth";
+import InputTag from "@/app/[locale]/admin/dashboard/blogs/inputTag";
+import { useRouter } from "next/navigation";
+
 // Page Component
 function Page() {
+  const router = useRouter();
   const { toast } = useToast();
   const t = useTranslations("blogForm"); // Translation object for the selected language
   const [content, setContent] = useState(""); // Quill content state
   const [tags, setTags] = useState<string[]>([]); // State for tags management
-  const [tagInput, setTagInput] = useState(""); // For adding a new tag
+  const [loadingSubmitting, setLoadingSubmitting] = useState(false);
 
   // Validation Schema with translated error messages
   const validationSchema = Yup.object({
@@ -50,6 +52,7 @@ function Page() {
     metaKeywords: Yup.string().required(t("meta_keywords_required")),
     blogLang: Yup.string().required(t("lang_required")),
   });
+
   // Formik setup
   const formik = useFormik({
     initialValues: {
@@ -63,6 +66,8 @@ function Page() {
     },
     validationSchema,
     onSubmit: async (values) => {
+      setLoadingSubmitting(true);
+
       console.log(values);
       // Handle form submission here
       const formData = new FormData();
@@ -85,6 +90,10 @@ function Page() {
             description: t("blog_added_successfully_you_can_check_it"),
           });
           formik.resetForm();
+          router.push("/admin/dashboard/blogs");
+
+          //reset inputs
+          setTags([]);
         } else {
           toast({
             variant: "destructive",
@@ -94,26 +103,16 @@ function Page() {
         }
       } catch (error) {
         console.error("Error submitting blog:", error);
+        toast({
+          variant: "destructive",
+          title: t("blog_adding_failed"),
+          description: "Error happened when adding blog",
+        });
+      } finally {
+        setLoadingSubmitting(false);
       }
     },
   });
-
-  // Function to add a new tag
-  const handleAddTag = () => {
-    if (tagInput && !tags.includes(tagInput)) {
-      const newTags = [...tags, tagInput];
-      setTags(newTags);
-      setTagInput("");
-      formik.setFieldValue("tags", newTags); // Update Formik state with new tags
-    }
-  };
-
-  // Function to remove a tag
-  const handleRemoveTag = (tag: string) => {
-    const newTags = tags.filter((t) => t !== tag);
-    setTags(newTags);
-    formik.setFieldValue("tags", newTags); // Update Formik state with removed tag
-  };
 
   return (
     <div className="w-full flex flex-col gap-5 capitalize ">
@@ -145,47 +144,7 @@ function Page() {
               </div>
 
               {/* Tags */}
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="tags">{t("tags")}</Label>
-                <div className="flex flex-row gap-x-1.5 items-center">
-                  <Input
-                    value={tagInput}
-                    onChange={(e) => setTagInput(e.target.value)}
-                    placeholder={t("tag_placeholder")}
-                    className="max-w-[500px] w-full"
-                  />
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    type="button"
-                    onClick={handleAddTag}
-                  >
-                    {t("tag_add")}
-                  </Button>
-                </div>
-
-                <div className="flex flex-row flex-wrap space-x-1.5">
-                  {tags.map((tag, index) => (
-                    <Badge
-                      key={index}
-                      variant="default"
-                      className="flex flex-row space-x-1.5 h-8"
-                    >
-                      <span>{tag}</span>
-                      <X
-                        size={18}
-                        onClick={() => handleRemoveTag(tag)}
-                        className="cursor-pointer"
-                      />
-                    </Badge>
-                  ))}
-                </div>
-                {formik.errors.tags && formik.touched.tags && (
-                  <div className="text-red-500 text-sm">
-                    {formik.errors.tags}
-                  </div>
-                )}
-              </div>
+              <InputTag formik={formik} tags={tags} setTags={setTags} />
 
               {/* Blog Image */}
               <div className="flex flex-col space-y-1.5">
@@ -317,7 +276,9 @@ function Page() {
             <Button variant="outline" type="button">
               {t("cancel")}
             </Button>
-            <Button type="submit">{t("publish")}</Button>
+            <Button type="submit" disabled={loadingSubmitting}>
+              {loadingSubmitting ? "loading...." : t("publish")}
+            </Button>
           </CardFooter>
         </form>
       </Card>
